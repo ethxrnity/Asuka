@@ -54,4 +54,4 @@ client.on("guildMemberAdd", member => {
 });
 
 
-client.login("ODI2OTE4NTYyNTE3MjIxNDI2.YGTd7A.GheOjxD2ERXarQ9VDvtVs3AWOfs");
+client.login("token");
