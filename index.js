@@ -5,7 +5,7 @@ const client = new Client({
 });
 
 client.commands = new Collection();
-client.aliases = new Collection();
+client.aliases = new Collection();   
 
 ["command"].forEach(handler => {
     require(`./handler/${handler}`)(client);
@@ -15,14 +15,14 @@ client.aliases = new Collection();
 client.on("ready", () => {
   console.log("Jsem online, nazdar Franto. :)");
   setInterval(function() {
-
-    let statuses = [`${client.users.size} uživatelů!`, `host.frantata.cz`, `Napiš !help pro pomoc`, `Doporučte nás vašim přátelům!`];
-
+    
+    let statuses = [`Potřebuješ pomoc? Vytvoři si ticket!`, `host.frantata.cz`, `Napiš !help pro pomoc`, `Doporučte nás vašim přátelům!`];
+    
     let status = statuses[Math.floor(Math.random()*statuses.length)];
     client.user.setPresence({ game: {name: status}, status: "online" });
 
   }, 5000)
-});
+}); 
 
 client.on("message", async message => {
     const prefix = "!";
@@ -46,12 +46,7 @@ client.on("message", async message => {
         command.run(client, message, args);
 
 });
-
-client.on("guildMemberAdd", member => {
-    let newuserRole = member.guild.roles.find(role => role.id === "826757065426337822");
-
-    member.addRole(newuserRole);
-});
+   
 
 
 client.login("token");
