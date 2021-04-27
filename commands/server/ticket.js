@@ -20,9 +20,14 @@ module.exports = {
 
 message.guild.createChannel(`ticket-${message.author.id}`, "text").then(c => {
           let everyone = message.guild.roles.find("name", "@everyone");
+          let podpora = message.guild.roles.find("name", "■ Podpora");
           c.overwritePermissions(everyone, {
               SEND_MESSAGES: false,
               READ_MESSAGES: false
+          });
+          c.overwritePermissions(podpora, {
+              SEND_MESSAGES: true,
+              READ_MESSAGES: true
           });
           c.overwritePermissions(message.author, {
               SEND_MESSAGES: true,
