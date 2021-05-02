@@ -18,19 +18,26 @@ module.exports = {
            }
     }}).then(m => m.delete(1999));
 
+let uzivatel = message.author.username      
 
+message.channel.setParent('836602360742543421');
+      message.channel.setName(`closed-ticket-${uzivatel}`);     
+      
+      
 const channel = client.channels.find(channel => channel.name === `ticket-${message.author.id}`)
 
 let everyone = message.guild.roles.find("name", "@everyone");
 channel.overwritePermissions(everyone, {
     SEND_MESSAGES: false,
-    READ_MESSAGES: false
+    READ_MESSAGES: false,
+    VIEW_CHANNEL: false
 });
 channel.overwritePermissions(message.author, {
     SEND_MESSAGES: false,
-    READ_MESSAGES: true
+    READ_MESSAGES: true,
+    VIEW_CHANNEL: false
 });
-
+      
    const AsukaTicket = new RichEmbed()
 
    .setDescription(`Ticket uživatele ${message.author.username}, byl úspěšně uzavřen!`)
