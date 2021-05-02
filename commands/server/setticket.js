@@ -3,9 +3,9 @@ const { getMember, formatDate } = require("../../functions.js");
 const { stripIndents } = require("common-tags");
 
 module.exports = {
-  name: "setticket",
+  name: "closeticket",
   category: "server",
-  description: "Vytvoří tvůj ticket",
+  description: "Uzavře tvůj ticket!",
   run: async (client, message, args) => {
     const member = getMember(message, args.join(" "));
     const msg = await message.channel.send({embed: {
@@ -18,68 +18,33 @@ module.exports = {
            }
     }}).then(m => m.delete(1999));
 
- if(message.channel.name !== `ticket-${message.author.id}`) return message.channel.send({embed: {
-      color: 5729279,
-      description: "<a:AsukaError:828188028551299072> Promiň, ale tento příkaz lze použít pouze v kanále s tickety!",
-      timestamp: new Date(),
-        footer: {
-        icon_url: message.author.avatarURL,
-        text: "Požadavek od: " + message.author.username
-               }
+let uzivatel = message.author.username      
 
-  }});
+message.channel.setParent('836602360742543421');
+      message.channel.setName(`closed-ticket-${uzivatel}`);     
+      
+      
+const channel = client.channels.find(channel => channel.name === `ticket-${message.author.id}`)
 
-if(message.content.includes("|")) {
-  var dotaz = message.content.split("|")[0]
-  dotaz = dotaz.replace("!setticket","");
-  var role = message.content.split("|")[1]
-  var platforma = message.content.split("|")[2]
+let everyone = message.guild.roles.find("name", "@everyone");
+channel.overwritePermissions(everyone, {
+    SEND_MESSAGES: false,
+    READ_MESSAGES: false,
+    VIEW_CHANNEL: false
+});
+channel.overwritePermissions(message.author, {
+    SEND_MESSAGES: false,
+    READ_MESSAGES: true,
+    VIEW_CHANNEL: false
+});
+      
+   const AsukaTicket = new RichEmbed()
 
-         const AsukaOrder3 = new RichEmbed()
-         .addBlankField()
-         .setTitle("<:AsukaOrder:835620702559797299> Váš ticket byl úspěšně upřesněn!")
-         .addField("\n\n**<:AsukaInfo2:835269287869415424> Vaše požadavky**", stripIndents`**Dotaz**: ${dotaz}
-         **Mířená role**: ${role}
-         **Platforma**: ${platforma}`, true)
-         .addBlankField()
-         .setDescription("Admini by se měli tvé zprávy co v nejbližší době všimnout a pomoct ti s tvým dotazem!")
-         .setFooter('Požadavek od: ' + message.author.username, message.author.avatarURL)
-         .setColor('#576bff')
-         .setTimestamp();
+   .setDescription(`Ticket uživatele ${message.author.username}, byl úspěšně uzavřen!`)
+   .setFooter('Požadavek od: ' + message.author.username, message.author.avatarURL)
+   .setColor('#576bff')
 
-        const esayMessage = args.slice(1).join(" ");
-        message.delete().catch(O_o=>{});
-
-         message.channel.send(AsukaOrder3);
-
-     if(!dotaz) return message.channel.send({embed: {
-      color: 5729279,
-      description: "<a:AsukaError:828188028551299072> Nebyl uveden dotaz, uveď jej prosím!",
-      timestamp: new Date(),
-        footer: {
-          icon_url: message.author.avatarURL,
-          text: "Požadavek od: " + message.author.username
-           }
-    }});
-
-    if(!role) return message.channel.send({embed: {
-      color: 5729279,
-      description: "<a:AsukaError:828188028551299072> Nebyla uvedena role, uveď ji prosím!",
-      timestamp: new Date(),
-        footer: {
-          icon_url: message.author.avatarURL,
-          text: "Požadavek od: " + message.author.username
-           }
-    }});
-    if(!platforma) return message.channel.send({embed: {
-      color: 5729279,
-      description: "<a:AsukaError:828188028551299072> Nebyla uvedena platforma, uveď ji prosím!",
-      timestamp: new Date(),
-        footer: {
-          icon_url: message.author.avatarURL,
-          text: "Požadavek od: " + message.author.username
-           }
-    }});
-
-}
-  }}
+   .setTimestamp();
+   message.channel.send(AsukaTicket);
+ }
+ }
