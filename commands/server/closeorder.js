@@ -18,17 +18,23 @@ module.exports = {
            }
     }}).then(m => m.delete(1999));
 
+let uzivatel = message.author.username      
 
+message.channel.setParent('836602360742543421');
+      message.channel.setName(`closed-objednavka-${uzivatel}`);  
+      
 const channel = client.channels.find(channel => channel.name === `objednavka-${message.author.id}`)
 
 let everyone = message.guild.roles.find("name", "@everyone");
 channel.overwritePermissions(everyone, {
     SEND_MESSAGES: false,
-    READ_MESSAGES: false
+    READ_MESSAGES: false,
+    VIEW_CHANNEL: false
 });
 channel.overwritePermissions(message.author, {
     SEND_MESSAGES: false,
-    READ_MESSAGES: true
+    READ_MESSAGES: true,
+    VIEW_CHANNEL: false
 });
 
    const AsukaOrder = new RichEmbed()
